@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dla Mojej Księżniczki 💖</title>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ffb3ec,#ff8fab,#8ecfff);
+background-size:400% 400%;
+animation:bg 10s ease infinite;
+text-align:center;
+color:black;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+h1{
+font-size:8vw;
+margin-top:30vh;
+animation:grow 4s forwards;
+}
+
+@keyframes grow{
+from{font-size:6vw;}
+to{font-size:12vw;}
+}
+
+button{
+padding:15px 25px;
+font-size:5vw;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#ff4da6,#6ecbff);
+color:white;
+box-shadow:0 0 20px pink;
+margin:10px;
+}
+
+button:active{
+transform:scale(1.1);
+}
+
+.hidden{display:none;}
+
+#counter{
+position:absolute;
+top:10px;
+left:10px;
+font-size:3.5vw;
+}
+
+.floating{
+position:absolute;
+font-size:5vw;
+animation:floatUp 20s linear infinite;
+}
+
+@keyframes floatUp{
+from{transform:translateY(100vh);}
+to{transform:translateY(-10vh);}
+}
+
+.heart{
+position:fixed;
+top:-20px;
+font-size:6vw;
+animation:fall linear infinite;
+pointer-events:none;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh);}
+}
+
+#final img{
+width:70vw;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="counter"></div>
+
+<h1 id="start">Kocham Cię bardzo 💖</h1>
+<button id="startBtn">Dalej 💕</button>
+
+<div id="question" class="hidden">
+<h2 style="font-size:7vw;">Czy poprawił Ci się humor myszo? 🥺</h2>
+<button id="yes">Tak 💖</button>
+<button id="no">Nie 😈</button>
+</div>
+
+<div id="final" class="hidden">
+<h1 style="font-size:10vw;">Zawsze będę Cię kochał myszko ❤️</h1>
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Red_heart.svg">
+</div>
+
+<audio id="music" loop>
+<source src="piosenka.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// uruchom muzykę po pierwszym kliknięciu
+document.body.addEventListener("click",()=>{
+document.getElementById("music").play();
+},{once:true});
+
+// licznik dni
+function counter(){
+let start=new Date("2023-07-03");
+let today=new Date();
+let days=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("counter").innerHTML=
+"Od 03.07.2023 razem 💑<br>"+days+" dni miłości ❤️";
+}
+counter();
+
+// spadające serca
+function createHeart(){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=3+Math.random()*5+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),8000);
+}
+setInterval(createHeart,300);
+
+// dalej
+document.getElementById("startBtn").onclick=function(){
+document.getElementById("start").classList.add("hidden");
+this.classList.add("hidden");
+
+let texts=[
+"Jesteś piękna 💕",
+"Moja księżniczka 👑",
+"Najlepsza na świecie 💗",
+"Mój skarb 🥰",
+"Moje wszystko ❤️"
+];
+
+texts.forEach(text=>{
+let div=document.createElement("div");
+div.className="floating";
+div.style.left=Math.random()*80+"vw";
+div.style.animationDuration=15+Math.random()*10+"s";
+div.innerHTML=text;
+document.body.appendChild(div);
+
+});
+
+setTimeout(()=>{
+document.getElementById("question").classList.remove("hidden");
+},5000);
+};
+
+// powiększanie TAK
+let scale=1;
+document.getElementById("no").onclick=function(){
+scale+=0.3;
+document.getElementById("yes").style.transform="scale("+scale+")";
+if(scale>5){
+document.getElementById("yes").style.position="fixed";
+document.getElementById("yes").style.top="0";
+document.getElementById("yes").style.left="0";
+document.getElementById("yes").style.width="100%";
+document.getElementById("yes").style.height="100%";
+document.getElementById("yes").style.fontSize="15vw";
+}
+};
+
+// klik TAK
+document.getElementById("yes").onclick=function(){
+document.getElementById("question").classList.add("hidden");
+document.getElementById("final").classList.remove("hidden");
+};
+
+</script>
+
+</body>
+</html>
